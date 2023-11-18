@@ -7,9 +7,16 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProfileRequest;
+use App\Http\Middleware\CheckUserProfileOwnership;
 
 class UserProfileController extends Controller
 {
+
+    public function __construct()
+    {
+        // Apply the middleware only to the 'show' method
+        $this->middleware(CheckUserProfileOwnership::class)->only('show');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -61,7 +68,6 @@ class UserProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-
          return response()->json([
             'status_code' => 200, 
             'message' =>'profile created sucessfully', 
@@ -74,19 +80,4 @@ class UserProfileController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

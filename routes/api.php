@@ -30,11 +30,14 @@ Route::post('auth/signup', [UserAuthController::class, 'signup']);
 Route::post('auth/login', [UserAuthController::class, 'login']);
 
 
+Route::get('users/event', [EventController::class, 'index']);
+
+
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('auth/logout', [UserAuthController::class, 'logout']);
     
     Route::apiResource('users/profile', UserProfileController::class);
 
-    Route::apiResource('users/event', EventController::class);
+    Route::apiResource('users/event', EventController::class)->only('store', 'show', 'update');
 });
 

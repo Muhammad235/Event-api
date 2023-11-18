@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateEventRequest;
@@ -13,7 +14,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        return Event::simplePaginate();
     }
 
     /**
@@ -24,7 +25,7 @@ class EventController extends Controller
         $validatedData = $request->validated();
 
         $user = auth()->user();
-        
+
         try {
 
             if ($request->hasFile('image')) {
