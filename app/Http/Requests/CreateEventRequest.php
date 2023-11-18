@@ -22,19 +22,25 @@ class CreateEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string', 'max:255'],
+            'title' => [$this->isPostRequest(), 'string', 'max:100'],
+            'description' => [$this->isPostRequest(), 'string', 'max:255'],
             'start_date' => ['date_format:Y-m-d'],
-            'end_date' => ['required', 'date_format:Y-m-d', 'after:start_date'],
-            'start_time' => ['required'],
-            'end_time' => ['required',],
-            'location' => ['required', 'max:255'],
-            'tags' => ['required', ],
+            'end_date' => [$this->isPostRequest(), 'date_format:Y-m-d', 'after:start_date'],
+            'start_time' => [$this->isPostRequest()],
+            'end_time' => [$this->isPostRequest(),],
+            'location' => [$this->isPostRequest(), 'max:255'],
+            'tags' => [$this->isPostRequest(), ],
             'is_paid_event' => ['sometimes', 'boolean'],
-            'ticket_price' => ['required', 'numeric'],
-            'number_of_available_tickets' => ['required', 'numeric'],
-            'registration_closing_date' => ['required', 'before:end_date'],
-            'image' => ['required'],
+            'ticket_price' => [$this->isPostRequest(), 'numeric'],
+            'number_of_available_tickets' => [$this->isPostRequest(), 'numeric'],
+            'registration_closing_date' => [$this->isPostRequest(), 'before:end_date'],
+            'image' => [$this->isPostRequest()],
         ];
     }
+
+    private function isPostRequest()
+    {
+        return $request->isMethod('post') ? 'required' : 'sometimes';
+    }
+
 }

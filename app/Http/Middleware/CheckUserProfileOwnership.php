@@ -15,7 +15,6 @@ class CheckUserProfileOwnership
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         $userId = $request->profile->user_id;
 
         if ($userId !== auth()->user()->id) {
@@ -24,7 +23,6 @@ class CheckUserProfileOwnership
                 'message' => 'You are not authorized to make this request',
             ], 401);
         }
-
 
         return $next($request);
     }

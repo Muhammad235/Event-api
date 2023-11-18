@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\EventController;
+use App\Http\Controllers\Api\V1\PublicEventController;
 use App\Http\Controllers\Api\V1\UserProfileController;
 use App\Http\Controllers\Api\V1\Auth\UserAuthController;
 use App\Http\Controllers\Api\V1\Auth\GoogleAuthController;
@@ -25,15 +26,17 @@ Route::get('login/google/callback', [GoogleAuthController::class, 'callback']);
 Route::post('auth/signup', [UserAuthController::class, 'signup']);
 Route::post('auth/login', [UserAuthController::class, 'login']);
 
-
 Route::get('users/event', [EventController::class, 'index']);
 
+
+Route::apiResource('events', PublicEventController::class)->only('index', 'search');
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('auth/logout', [UserAuthController::class, 'logout']);
     
     Route::apiResource('users/profile', UserProfileController::class);
 
-    Route::apiResource('users/event', EventController::class)->only('store', 'show', 'update');
-});
+    Route::apiResource('users/event', EventController::class);
 
+    Route::get('users/search/{search}', [EventController::class, 'search']);
+});

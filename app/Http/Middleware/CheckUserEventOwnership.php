@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ResourceOwnershipMiddleware
+class CheckUserEventOwnership
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,17 @@ class ResourceOwnershipMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $authUser = auth()->user();
 
-       echo  $request->route('user');
+        // dd(auth()->user()->id);
 
+        $userId = $request->event->creator_id;
+
+        if ($userId !== auth()->user()->id) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'You are not authorized to make this request',
+            ], 401);
+        }
 
         return $next($request);
     }
