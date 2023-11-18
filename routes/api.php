@@ -18,13 +18,9 @@ use App\Http\Controllers\Api\V1\Auth\GoogleAuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-
-Route::get('auth/google', [GoogleAuthController::class, 'redirect']);
-Route::get('auth/google/callback', [GoogleAuthController::class, 'callback']);
+Route::get('login/google', [GoogleAuthController::class, 'redirect']);
+Route::get('login/google/callback', [GoogleAuthController::class, 'callback']);
 
 Route::post('auth/signup', [UserAuthController::class, 'signup']);
 Route::post('auth/login', [UserAuthController::class, 'login']);
