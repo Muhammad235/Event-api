@@ -38,7 +38,7 @@ class UserAuthController extends Controller
         } catch (\Exception $e) {
                        return response()->json([
                 'status_code' => 500,
-                'message' => "Internal server error",
+                'message' => "An error occured while processing the request",
             ], 500);
         }
 
@@ -70,7 +70,7 @@ class UserAuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'message' => "Internal server error",
+                'message' => "An error occured while processing the request",
             ], 500);
         }
 

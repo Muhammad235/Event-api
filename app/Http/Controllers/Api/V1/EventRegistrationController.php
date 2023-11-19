@@ -36,7 +36,7 @@ class EventRegistrationController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'message' => "Internal server error",
+                'message' => "An error occured while processing the request",
             ], 500);
         }
     
@@ -47,14 +47,24 @@ class EventRegistrationController extends Controller
      */
     public function destroy(Event $event)
     {
-        $deleteEvent = $event->delete();
+        $user = auth()->user();
 
-        if (! $deleteEvent) {
+
+        try {
+
+            $deleteRegisteredEvent = EventRegistration::where('user_id', $user->id)->where('event_id', $event->id)->delete();
+
+            if ($deleteRegisteredEvent) {
+                return response()->json([], 204);
+            }
+ 
+        } catch (\Exception $e) {
             return response()->json([
                 'status_code' => 500,
-                'message' => "Internal server error",
+                'message' => "An error occured while processing the request",
             ], 500);
         }
+
 
     }
 }

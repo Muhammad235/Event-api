@@ -57,7 +57,7 @@ class UserProfileController extends Controller
             //throw $e;
                        return response()->json([
                 'status_code' => 500,
-                'message' => "Internal server error",
+                'message' => "An error occured while processing the request",
             ], 500);
         }
     }

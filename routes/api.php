@@ -41,5 +41,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('users/search/{search}', [EventController::class, 'search']);
 
     Route::post('event/register/{event:id}', [EventRegistrationController::class, 'store']);
+    Route::delete('event/unregister/{event:id}', [EventRegistrationController::class, 'destroy']);
 
 });

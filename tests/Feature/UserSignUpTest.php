@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserSignUpTest extends TestCase
 {
-    use RefreshDatabase;
     /**
      * A basic feature test example.
      */

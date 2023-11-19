@@ -13,8 +13,8 @@ class PublicEventListTest extends TestCase
      */
     public function test_that_all_site_visitors_can_see_event_lists(): void
     {
-        
-        $response = $this->get('/api/events/users');
+
+        $response = $this->get('/api/events');
 
         $response->assertStatus(200);
     }
