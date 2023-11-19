@@ -40,6 +40,6 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('users/search/{search}', [EventController::class, 'search']);
 
-    Route::post('event/register/{eventId}', [EventRegistrationController::class, 'store']);
+    Route::post('event/register/{event:id}', [EventRegistrationController::class, 'store']);
 
 });

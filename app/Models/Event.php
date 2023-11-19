@@ -36,12 +36,6 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function registerEvent(): HasMany
-    {
-        return $this->hasMany(Event::class);
-    }
-
-
 
 
 }

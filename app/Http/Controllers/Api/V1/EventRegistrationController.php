@@ -12,16 +12,34 @@ class EventRegistrationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Event $eventId, Request $request)
+    public function store(Event $event, Request $request,)
     {
-        dd($eventId);
         
         $user = auth()->user();
 
-        $user->create()->registerEvent([
-            'name' => $user->name,
-            'email' => $user->email,
-        ]);
+        try {
+
+            $eventRegistration = EventRegistration::updateOrCreate([
+                'user_id' => $user->id,
+                'event_id' => $event->id, 
+                'name' => $user->name,
+                'email' => $user->email,
+            ]);
+
+            if ($eventRegistration) {
+                return response()->json([
+                    'status_code' => 201, 
+                    'message' =>'Registration was successfully', 
+                ], 201);
+            }
+ 
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => "Internal server error",
+            ], 500);
+        }
+    
     }
 
     /**

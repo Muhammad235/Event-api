@@ -48,10 +48,9 @@ class GoogleAuthController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            //throw $th;
             return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
+                'status_code' => 500,
+                'message' => "Internal server error",
             ], 500);
         }
     }

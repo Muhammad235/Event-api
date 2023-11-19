@@ -10,9 +10,10 @@ class EventRegistration extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'event_id',
         'name',
         'email',
     ];
-
 
 }
