@@ -35,23 +35,45 @@ class PublicEventController extends Controller
 
      public function search(Event $event, Request $request)
      {
-        $result = $event
-        ->when($request->search, function ($query) use ($request) {
-            $query->where('title', 'like', '%' . $request->search . '%')
-            ->orWhere('description', 'like', '%' . $request->search . '%')
-            ->orWhere('location', 'like', '%' . $request->search . '%');
-        })
-        ->when($request->dateFrom, function ($query) use ($request) {
-            $query->where('start_date', '>=', $request->dateFrom);
-        })
-        ->when($request->priceFrom, function ($query) use ($request) {
-            $query->where('ticket_price', '>=', $request->priceFrom);
-        })
-        ->when($request->priceTo, function ($query) use ($request) {
-            $query->where('ticket_price', '<=', $request->priceTo);
-        })
-        ->paginate(10);
+        try {
+            $getSearchQuery = $event
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%')
+                ->orWhere('location', 'like', '%' . $request->search . '%');
+            })
+            ->when($request->dateFrom, function ($query) use ($request) {
+                $query->where('start_date', '>=', $request->dateFrom);
+            })
+            ->when($request->priceFrom, function ($query) use ($request) {
+                $query->where('ticket_price', '>=', $request->priceFrom);
+            })
+            ->when($request->priceTo, function ($query) use ($request) {
+                $query->where('ticket_price', '<=', $request->priceTo);
+            })
+            ->paginate(10);
+
+
+          return response()->json([
+            'status_code' => 200, 
+            'message' =>'search result returned sucessfully', 
+            'data' => $getSearchQuery,
+        ], 200);
+
+            
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status_code' => 500,
+                'message' => "Internal server error",
+            ], 500);
+        }
+
+
+
      }
+
+
 
 
 }

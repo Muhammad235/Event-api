@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -56,9 +55,9 @@ class UserProfileController extends Controller
 
         } catch (\Exception $e) {
             //throw $e;
-            return response()->json([
-                'status' => 500,
-                'message' => $e->getMessage(),
+                       return response()->json([
+                'status_code' => 500,
+                'message' => "Internal server error",
             ], 500);
         }
     }

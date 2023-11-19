@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\PublicEventController;
 use App\Http\Controllers\Api\V1\UserProfileController;
 use App\Http\Controllers\Api\V1\Auth\UserAuthController;
 use App\Http\Controllers\Api\V1\Auth\GoogleAuthController;
+use App\Http\Controllers\Api\V1\EventRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +27,9 @@ Route::get('login/google/callback', [GoogleAuthController::class, 'callback']);
 Route::post('auth/signup', [UserAuthController::class, 'signup']);
 Route::post('auth/login', [UserAuthController::class, 'login']);
 
-Route::get('users/event', [EventController::class, 'index']);
 
-
-Route::apiResource('events', PublicEventController::class)->only('index', 'search');
+Route::get('events', [PublicEventController::class, 'index']);
+Route::get('events/search/{search}', [PublicEventController::class, 'search']);
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('auth/logout', [UserAuthController::class, 'logout']);
@@ -39,4 +39,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('users/event', EventController::class);
 
     Route::get('users/search/{search}', [EventController::class, 'search']);
+
+    Route::post('event/register/{eventId}', [EventRegistrationController::class, 'store']);
+
 });

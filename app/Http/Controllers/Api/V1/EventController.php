@@ -22,19 +22,18 @@ class EventController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $event = $user->event()->first();
+        $events = $user->event()->get();
 
         try {
 
-            if ($event) {
+            if ($events->isNotEmpty()) {
                 return response()->json([
-                    'status_code' => 200, 
-                    'message' =>'User event returned sucessfully', 
-                    'data' => $event
+                    'status_code' => 200,
+                    'message' => 'User events returned successfully',
+                    'data' => $events
                 ], 200);
-            }else {
-
-                //return 204 when user has no event
+            } else {
+                // User has no events
                 return response()->json([], 204);
             }
  
@@ -124,7 +123,12 @@ class EventController extends Controller
     {
         $deleteEvent = $event->delete();
 
-        if (! $deleteEvent) {
+        if ($deleteEvent) {
+
+            return response()->json([], 204);
+
+        }else{
+            
             return response()->json([
                 'status_code' => 500,
                 'message' => "Internal server error",
@@ -139,6 +143,8 @@ class EventController extends Controller
 
      public function search(Event $event, Request $request)
      {
+
+        $user = auth()->user();
 
         $getEvent = $event
         ->when($request->search, function ($query) use ($request) {
