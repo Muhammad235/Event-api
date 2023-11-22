@@ -26,7 +26,7 @@ class PublicEventController extends Controller
         }else {
 
             //return 204 when thre is no event available
-            return response()->json(null, 204);
+            return response()->json([], 204);
         }
     }
 
@@ -70,11 +70,5 @@ class PublicEventController extends Controller
             ], 500);
         }
 
-
-
      }
-
-
-
-
 }

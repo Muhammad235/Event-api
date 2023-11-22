@@ -40,7 +40,9 @@ class UserProfileController extends Controller
             
 
             //store the request 
-            $profile = $user->profile()->updateOrCreate($validatedData);
+            $profile = $user->profile()->updateOrCreate(['user_id' => $user->id], $validatedData);
+
+            $avatar = $profile->avatar ? url("user_profiles/{$profile->avatar}") : null;
 
             return response()->json([
                 'status_code' => 200, 
@@ -49,13 +51,13 @@ class UserProfileController extends Controller
                     'full_name' => $profile->full_name, 
                     'phone_number' => $profile->phone_number,
                     'gender' => $profile->gender,
-                    'avatar' => $profile->avatar
+                    'avatar' => $avatar 
                 ],
             ], 200);
 
         } catch (\Exception $e) {
-            //throw $e;
-                       return response()->json([
+
+                return response()->json([
                 'status_code' => 500,
                 'message' => "An error occured while processing the request",
             ], 500);
@@ -67,6 +69,8 @@ class UserProfileController extends Controller
      */
     public function show(Profile $profile)
     {
+        $avatar = $profile->avatar ? url("user_profiles/{$profile->avatar}") : null;
+
          return response()->json([
             'status_code' => 200, 
             'message' =>'profile created sucessfully', 
@@ -74,7 +78,7 @@ class UserProfileController extends Controller
                 'full_name' => $profile->full_name, 
                 'phone_number' => $profile->phone_number,
                 'gender' => $profile->gender,
-                'avatar' => $profile->avatar
+                'avatar' => $avatar 
             ],
         ], 200);
     }

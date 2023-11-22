@@ -23,9 +23,9 @@ class UserProfileRequest extends FormRequest
     {
         return [
             'full_name' => ['sometimes', 'string', 'max:255'],
-            'phone_number' => ['sometimes', 'string', 'unique:profiles'],
+            'phone_number' => ['sometimes', 'string'],
             'gender' => ['sometimes', 'in:male,female'],
-            'avatar' => ['sometimes', cz],
+            'avatar' => ['sometimes'],
         ];
     }
 }

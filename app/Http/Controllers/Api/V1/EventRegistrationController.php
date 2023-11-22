@@ -54,7 +54,7 @@ class EventRegistrationController extends Controller
     {
         $userId = auth()->id();
 
-        $registeredEvent = EventRegistration::where('user_id', 2)->get();
+        $registeredEvent = EventRegistration::where('user_id', $userId)->get();
 
         try {
 

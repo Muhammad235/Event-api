@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Event;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateEventRequest;
@@ -103,6 +104,7 @@ class EventController extends Controller
      */
     public function update(CreateEventRequest $request, Event $event)
     {
+
         $validatedData = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -113,14 +115,35 @@ class EventController extends Controller
             $request->image->move(public_path('event_fliers'), $validatedData['image']);
         }
 
-        $event->update($validatedData);
+       $updateEvent = $event->update($request->all());
+
+       if ($updateEvent) {
+            return response()->json([
+                'status_code' => 200, 
+                'message' =>'Event updated sucessfully', 
+                'data' => $event,
+            ], 200);
+       }else{
+            return response()->json([
+                'status_code' => 500,
+                'message' => "An error occured while processing the request",
+            ], 500);         
+       }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Event $event)
-    {
+    {   
+         // Delete the associated image file from storage
+         $filePath = public_path("event_images/{$event->image}");
+
+        //  if (File::exists($filePath)) {
+        //      File::delete($filePath);
+        //  }
+        
         $deleteEvent = $event->delete();
 
         if ($deleteEvent) {
@@ -134,7 +157,6 @@ class EventController extends Controller
                 'message' => "An error occured while processing the request",
             ], 500);
         }
-
     }
 
     /**

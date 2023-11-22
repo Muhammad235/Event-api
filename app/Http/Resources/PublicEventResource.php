@@ -27,7 +27,7 @@ class PublicEventResource extends JsonResource
             'ticket_price'=> $this->ticket_price,
             'number_of_available_tickets'=> $this->number_of_available_tickets,
             'registration_closing_date'=> $this->registration_closing_date,
-            'image_url'=> $this->image ? url("event_fliers/{$this->image}") : null,,
+            'image_url'=> $this->image ? url("event_fliers/{$this->image}") : null,
         ];
     }
 }
