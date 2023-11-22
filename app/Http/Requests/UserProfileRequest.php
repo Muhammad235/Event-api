@@ -25,7 +25,7 @@ class UserProfileRequest extends FormRequest
             'full_name' => ['sometimes', 'string', 'max:255'],
             'phone_number' => ['sometimes', 'string', 'unique:profiles'],
             'gender' => ['sometimes', 'in:male,female'],
-            'avatar' => ['sometimes', 'mimes:png,jpg,jpeg,svg', 'max:5048'],
+            'avatar' => ['sometimes', cz],
         ];
     }
 }

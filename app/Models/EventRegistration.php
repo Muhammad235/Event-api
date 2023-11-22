@@ -14,6 +14,13 @@ class EventRegistration extends Model
         'event_id',
         'name',
         'email',
+        'number_of_ticket'
     ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
+
 
 }

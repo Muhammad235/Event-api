@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get('users/search/{search}', [EventController::class, 'search']);
 
+    Route::get('event/registered', [EventRegistrationController::class, 'registered']);
     Route::post('event/register/{event:id}', [EventRegistrationController::class, 'store']);
     Route::delete('event/unregister/{event:id}', [EventRegistrationController::class, 'destroy']);
 

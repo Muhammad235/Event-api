@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('event_id')->constrained()->onDelete('cascade');
+            $table->integer('number_of_ticket');
             $table->timestamps();
         });
     }

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->longText('description');
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('start_time');
-            $table->string('end_time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->longText('location');
             $table->string('tags');
             $table->boolean('is_paid_event')->default(true);

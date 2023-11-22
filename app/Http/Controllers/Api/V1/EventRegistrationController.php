@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\EventRegistration;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\RegisteredEventResource;
 
 class EventRegistrationController extends Controller
 {
@@ -17,6 +18,8 @@ class EventRegistrationController extends Controller
         
         $user = auth()->user();
 
+        $numberOfTickets = intval($request->number_of_ticket);
+
         try {
 
             $eventRegistration = EventRegistration::updateOrCreate([
@@ -24,6 +27,7 @@ class EventRegistrationController extends Controller
                 'event_id' => $event->id, 
                 'name' => $user->name,
                 'email' => $user->email,
+                'number_of_ticket' => $numberOfTickets
             ]);
 
             if ($eventRegistration) {
@@ -41,6 +45,41 @@ class EventRegistrationController extends Controller
         }
     
     }
+
+    /**
+     * Gett all registered event from the storage
+    */
+
+    public function registered()
+    {
+        $userId = auth()->id();
+
+        $registeredEvent = EventRegistration::where('user_id', 2)->get();
+
+        try {
+
+            if ($registeredEvent->isNotEmpty()) {
+                return response()->json([
+                    'status_code' => 200, 
+                    'data' => RegisteredEventResource::collection($registeredEvent),
+                    'message' =>'Request was successfull', 
+                ], 200);
+            }else {
+                return response()->json([
+                    'status_code' => 404, 
+                    'message' => 'Not event found', 
+                ], 404);
+            }
+ 
+        } catch (\Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => "An error occured while processing the request",
+            ], 500);
+        }
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

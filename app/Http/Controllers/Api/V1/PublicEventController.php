@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PublicEventResource;
 
 class PublicEventController extends Controller
 {
@@ -14,18 +15,18 @@ class PublicEventController extends Controller
     */
     public function index()
     {
-        $event = Event::simplePaginate();
-
+        $event = Event::orderBy("created_at","desc")->simplePaginate(10);
+        
         if ($event) {
             return response()->json([
                 'status_code' => 200, 
                 'message' =>'Event returned sucessfully', 
-                'data' => $event
+                'data' => PublicEventResource::collection($event)
             ], 200);
         }else {
 
             //return 204 when thre is no event available
-            return response()->json([], 204);
+            return response()->json(null, 204);
         }
     }
 
