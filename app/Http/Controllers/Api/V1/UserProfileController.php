@@ -45,7 +45,7 @@ class UserProfileController extends Controller
             $avatar = $profile->avatar ? url("user_profiles/{$profile->avatar}") : null;
 
             return response()->json([
-                'status_code' => 200, 
+                'status_code' => 201, 
                 'message' =>'profile created sucessfully', 
                 'data' => [
                     'full_name' => $profile->full_name, 
@@ -53,7 +53,7 @@ class UserProfileController extends Controller
                     'gender' => $profile->gender,
                     'avatar' => $avatar 
                 ],
-            ], 200);
+            ], 201);
 
         } catch (\Exception $e) {
 
