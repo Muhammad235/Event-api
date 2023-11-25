@@ -3,8 +3,10 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -31,6 +33,24 @@ class Handler extends ExceptionHandler
                     "message" => "No query results found"
                 ], 
                 404);    
+            }
+        });
+
+        $this->renderable(function (MethodNotAllowedHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    "status_code" => 405,
+                    "message" => "Method not allowed"
+                ], 405);
+            }
+        });
+
+        $this->renderable(function (ModelNotFoundException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    "status_code" => 404,
+                    "message" => "No query results found"
+                ], 404);
             }
         });
     }
