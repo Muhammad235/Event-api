@@ -34,7 +34,7 @@ Route::get('events/search/{search}', [PublicEventController::class, 'search']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('auth/logout', [UserAuthController::class, 'logout']);
     
-    Route::apiResource('users/profile', UserProfileController::class);
+    Route::apiResource('users/profile', UserProfileController::class)->only('store', 'show');
 
     Route::apiResource('users/event', EventController::class);
 

@@ -30,7 +30,7 @@ class Handler extends ExceptionHandler
                     "status_code" => 404,
                     "message" => "No query results found"
                 ], 
-                    404);    
+                404);    
             }
         });
     }
